@@ -1,4 +1,15 @@
-name: FullbrightExtended
-version: '${project.version}'
 main: io.papermc.fullbrightextended.FullbrightExtended
-api-version: '1.20'
+name: FullbrightExtended
+version: '1.1.1'
+commands:
+  fullbright:
+    description: Activates/deactivates fullbright
+    usage: /fullbright [playerName] [on|off]
+    permission: FullbrightExtended.command.fullbrightextended
+permissions:
+  FullbrightExtended.command.fullbrightextended:
+    description: Allows use of the fullbright command
+    default: true
+  FullbrightExtended.command.fullbrightextendedarguments:
+    description: Allows the use of the paremeters on the fullbright command
+    default: op
