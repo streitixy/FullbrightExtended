@@ -10,40 +10,37 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.jetbrains.annotations.NotNull;
+
 
 import static io.papermc.fullbrightextended.FullbrightExtended.prefix;
 
-public string sendMessage(string language, string messageKey){
-    if (language.equals("en_US")){
-        return(getConfig().getString(language+"."+messageKey))
 
 
 
-    }
-
-}
 public class FullbrightExtended extends JavaPlugin {
 
-    private ConfigManager configManager;
-    private LanguageManager languageManager;
     public static String prefix;
-    public static String language;
+    private ConfigManager configManager;
+    public LanguageManager languageManager;
 
     @Override
     public void onEnable() {
         configManager = new ConfigManager(this);
         configManager.setupConfig();
+
+
         languageManager = new LanguageManager(this);
         languageManager.setupConfig();
+        String language;
+
+
 
         prefix = ChatColor.translateAlternateColorCodes('&', getConfig().getString("prefix", "&6[FullbrightExtended] "));
-        language = getConfig().getString("language", "en_US");
 
-        this.getCommand("fullbright").setExecutor(new Command());
+        this.getCommand("fullbright").setExecutor(new CommandDetector(this));
         this.getCommand("fullbright").setTabCompleter(new FullbrightCommandTabCompleter());
 
-        this.getCommand("fblanguage").setExecutor(new Command());
+        this.getCommand("fblanguage").setExecutor(new CommandDetector(this));
         this.getCommand("fblanguage").setTabCompleter(new LanguageCommand());
 
 
@@ -57,10 +54,25 @@ public class FullbrightExtended extends JavaPlugin {
 }
 
 
-class Command implements CommandExecutor {
+
+
+class CommandDetector implements CommandExecutor {
+    private FullbrightExtended plugin;
+    String language = plugin.getConfig().getString("language", "en_US");
+
+
+    public CommandDetector(FullbrightExtended plugin) {
+        this.plugin = plugin;
+    }
+    private String sendMessage(String language, String messageKey) {
+
+        return plugin.getConfig().getString(language + "." + messageKey);
+    }
+
+
 
     @Override
-    public boolean onCommand(CommandSender sender, @NotNull Command cmd, String label, String[] args) {
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("fullbright")) {
             if (sender instanceof Player) {
             Player player = (Player) sender;
@@ -86,10 +98,10 @@ class Command implements CommandExecutor {
                             sender.sendMessage(prefix + ChatColor.RED + sendMessage(language, "fb_off_other").replace("{player}", args[0]));
                         }
                     } else {
-                        sender.sendMessage(prefix + ChatColor.RED + sendMessage(language, "permission");
+                        sender.sendMessage(prefix + ChatColor.RED + sendMessage(language, "permission"));
                     }
                 } else {
-                    sender.sendMessage(prefix + ChatColor.GOLD + "The player " + args[0] + " is not online/does not exist!");
+                    sender.sendMessage(prefix + ChatColor.GOLD + sendMessage(language, "fb_player_not_found").replace("{player}", args[0]));
                 }
             } else if (args.length == 2) {
                 Player target = Bukkit.getPlayerExact(args[0]);
@@ -103,7 +115,7 @@ class Command implements CommandExecutor {
                                 target.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 1));
                                 sender.sendMessage(prefix + ChatColor.GREEN +  sendMessage(language, "fb_off_other").replace("{player}", args[0]));
                             } else {
-                                sender.sendMessage(prefix + ChatColor.RED + "Parameter 'state' invalid.");
+                                sender.sendMessage(prefix + ChatColor.RED + sendMessage(language, "parameter_state"));
                             }
                         } else {
                             if (args[1].equals("off")) {
@@ -129,11 +141,11 @@ class Command implements CommandExecutor {
         }
             else if (cmd.getName().equalsIgnoreCase("fblanguage")) {
                 if (args[0].equals("pt_BR")){
-                    getConfig().set("language", "pt_BR");
+                    plugin.getConfig().set("language", "pt_BR");
                 }
 
                 else if (args[0].equals("en_US")){
-                    getConfig().set("language", "en_US");
+                    plugin.getConfig().set("language", "en_US");
                 }
 
 

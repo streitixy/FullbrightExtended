@@ -13,7 +13,7 @@ public class LanguageManager {
     private File configFile;
     private FileConfiguration config;
 
-    public ConfigManager(JavaPlugin plugin) {
+    public LanguageManager(JavaPlugin plugin) {
         this.plugin = plugin;
     }
 
