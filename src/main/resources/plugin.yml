@@ -5,6 +5,7 @@ commands:
   fullbright:
     description: Activates/deactivates fullbright
     usage: /fullbright [playerName] [on|off]
+    alises: [fb, fubr, light]
     permission: FullbrightExtended.command.fullbrightextended
 permissions:
   FullbrightExtended.command.fullbrightextended:
