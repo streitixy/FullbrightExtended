@@ -17,12 +17,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static io.papermc.fullbrightextended.FullbrightExtended.prefix;
 
 
 public class FullbrightExtended extends JavaPlugin {
 
+    private ConfigManager configManager;
+    public static String prefix;
+
     @Override
     public void onEnable() {
+        configManager = new ConfigManager(this);
+        configManager.setupConfig();
+
+        prefix = ChatColor.translateAlternateColorCodes('&', getConfig().getString("prefix", "&6[FullbrightExtended] "));
+
         this.getCommand("fullbright").setExecutor(new FullbrightCommand());
         this.getCommand("fullbright").setTabCompleter(new FullbrightCommandTabCompleter());
 
@@ -38,106 +47,77 @@ public class FullbrightExtended extends JavaPlugin {
 
 class FullbrightCommand implements CommandExecutor {
 
-
     @Override
     public boolean onCommand(CommandSender sender, @NotNull Command cmd, String label, String[] args) {
-
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (args.length == 0) {
                 PotionEffect effect = player.getPotionEffect(PotionEffectType.NIGHT_VISION);
                 if (effect == null) {
                     player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 1));
-                    sender.sendMessage(ChatColor.GOLD + "[FullbrightExtended] "+ ChatColor.GREEN + "Turned fullbright on for you.");
-
+                    sender.sendMessage(prefix + ChatColor.GREEN + "Turned fullbright on for you.");
                 } else {
                     player.removePotionEffect(PotionEffectType.NIGHT_VISION);
-                    sender.sendMessage(ChatColor.GOLD + "[FullbrightExtended] "+ ChatColor.RED + "Turned fullbright off for you.");
+                    sender.sendMessage(prefix + ChatColor.RED + "Turned fullbright off for you.");
                 }
-
-
             } else if (args.length == 1) {
                 Player target = Bukkit.getPlayerExact(args[0]);
                 if (target != null) {
                     if (sender.hasPermission("FullbrightExtended.command.fullbrightextendedarguments")) {
-
-                        
-                    
-                    PotionEffect effect = target.getPotionEffect(PotionEffectType.NIGHT_VISION);
-                    if (effect == null) {
-                        target.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 1));
-                        sender.sendMessage(ChatColor.GOLD + "[FullbrightExtended] "+ ChatColor.GREEN + "Turned fullbright on for " + args[0] + ".");
-
-                    } else {
-                        target.removePotionEffect(PotionEffectType.NIGHT_VISION);
-                        sender.sendMessage(ChatColor.GOLD + "[FullbrightExtended] "+ ChatColor.RED + "Turned fullbright off for " + args[0] + ".");
-                    }
-
-                 }
-                    else {
-
-
-                        sender.sendMessage(ChatColor.GOLD + "[FullbrightExtended] "+ ChatColor.RED + "You do not have permission to use this command.");
-
+                        PotionEffect effect = target.getPotionEffect(PotionEffectType.NIGHT_VISION);
+                        if (effect == null) {
+                            target.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 1));
+                            sender.sendMessage(prefix + ChatColor.GREEN + "Turned fullbright on for " + args[0] + ".");
+                        } else {
+                            target.removePotionEffect(PotionEffectType.NIGHT_VISION);
+                            sender.sendMessage(prefix + ChatColor.RED + "Turned fullbright off for " + args[0] + ".");
                         }
-
-
-            }
-                else {
-                    sender.sendMessage(ChatColor.GOLD + "[FullbrightExtended] "+ ChatColor.GOLD + "The player " + args[0] + " is not online/does not exist!");
-                }} else if (args.length == 2) {
+                    } else {
+                        sender.sendMessage(prefix + ChatColor.RED + "You do not have permission to use this command.");
+                    }
+                } else {
+                    sender.sendMessage(prefix + ChatColor.GOLD + "The player " + args[0] + " is not online/does not exist!");
+                }
+            } else if (args.length == 2) {
                 Player target = Bukkit.getPlayerExact(args[0]);
                 if (target != null) {
                     if (sender.hasPermission("FullbrightExtended.command.fullbrightextendedarguments")) {
-                        
-                    
-                    PotionEffect effect = target.getPotionEffect(PotionEffectType.NIGHT_VISION);
-                    if (effect == null) {
-                        if (args[1].equals("off")) {
-                            sender.sendMessage(ChatColor.GOLD + "[FullbrightExtended] "+ ChatColor.RED + "Fullbright is already off for " + args[0] + "!");
-                        } else if (args[1].equals("on")) {
-                            target.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 1));
-                            sender.sendMessage(ChatColor.GOLD + "[FullbrightExtended] "+ ChatColor.GREEN + "Turned fullbright on for " + args[0] + ".");
-
+                        PotionEffect effect = target.getPotionEffect(PotionEffectType.NIGHT_VISION);
+                        if (effect == null) {
+                            if (args[1].equals("off")) {
+                                sender.sendMessage(prefix + ChatColor.RED + "Fullbright is already off for " + args[0] + "!");
+                            } else if (args[1].equals("on")) {
+                                target.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 1));
+                                sender.sendMessage(prefix + ChatColor.GREEN + "Turned fullbright on for " + args[0] + ".");
+                            } else {
+                                sender.sendMessage(prefix + ChatColor.RED + "Parameter 'state' invalid.");
+                            }
                         } else {
-                            sender.sendMessage(ChatColor.GOLD + "[FullbrightExtended] "+ ChatColor.RED + "Parameter 'state' invalid.");
+                            if (args[1].equals("off")) {
+                                target.removePotionEffect(PotionEffectType.NIGHT_VISION);
+                                sender.sendMessage(prefix + ChatColor.GREEN + "Turned fullbright off for " + args[0] + ".");
+                            } else if (args[1].equals("on")) {
+                                sender.sendMessage(prefix + ChatColor.RED + "Fullbright is already on for " + args[0] + "!");
+                            } else {
+                                sender.sendMessage(prefix + ChatColor.RED + "Parameter 'state' invalid.");
+                            }
                         }
-
-
                     } else {
-                        if (args[1].equals("off")) {
-                            target.removePotionEffect(PotionEffectType.NIGHT_VISION);
-                            sender.sendMessage(ChatColor.GOLD + "[FullbrightExtended] "+ ChatColor.GREEN + "Turned fullbright off for " + args[0] + ".");
-                        } else if (args[1].equals("on")) {
-                            sender.sendMessage(ChatColor.GOLD + "[FullbrightExtended] "+ ChatColor.RED + "Fullbright is already on for " + args[0] + "!");
-                        } else {
-                            sender.sendMessage(ChatColor.GOLD + "[FullbrightExtended] "+ ChatColor.RED + "Parameter 'state' invalid.");
-                        }
-
+                        sender.sendMessage(prefix + ChatColor.RED + "You do not have permission to use this command.");
                     }
-
-
-
+                } else {
+                    sender.sendMessage(prefix + ChatColor.GOLD + "The player " + args[0] + " is not online/does not exist!");
                 }
-                    else {
-
-
-                        sender.sendMessage(ChatColor.GOLD + "[FullbrightExtended] "+ ChatColor.RED + "You do not have permission to use this command.");
-
-                    }}
-                else
-                {
-                    sender.sendMessage(ChatColor.GOLD + "[FullbrightExtended] "+ ChatColor.GOLD + "The player " + args[0] + " is not online/does not exist!");
-                }}
             }
-            if (args.length > 2){
-                sender.sendMessage(ChatColor.GOLD + "[FullbrightExtended] "+ ChatColor.RED + "You added too many parameters.");
+            if (args.length > 2) {
+                sender.sendMessage(prefix + ChatColor.RED + "You added too many parameters.");
                 return false;
             }
+        }
         return true;
     }
+}
 
-    }
 
 class FullbrightCommandTabCompleter implements TabCompleter {
 
@@ -160,7 +140,3 @@ class FullbrightCommandTabCompleter implements TabCompleter {
         return new ArrayList<>();
     }
 }
-
-
-
-
