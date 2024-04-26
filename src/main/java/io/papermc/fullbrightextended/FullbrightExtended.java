@@ -46,7 +46,7 @@ public class FullbrightExtended extends JavaPlugin {
         this.getCommand("fblanguage").setTabCompleter(new LanguageCommand());
 
 
-        getServer().getConsoleSender().sendMessage(prefix + ChatColor.GREEN + languageManager.getConfig().getString(language, "plugin_on"));
+        getServer().getConsoleSender().sendMessage(prefix + " " + ChatColor.GREEN + languageManager.getConfig().getString(language, "plugin_on"));
     }
 
     @Override
@@ -55,7 +55,7 @@ public class FullbrightExtended extends JavaPlugin {
         languageManager.setupConfig();
         String language;
         language = languageManager.getConfig().getString("language", "en_US");
-        getServer().getConsoleSender().sendMessage(prefix + ChatColor.RED + languageManager.getConfig().getString(language, "plugin_off"));
+        getServer().getConsoleSender().sendMessage(prefix + " " + ChatColor.RED + languageManager.getConfig().getString(language, "plugin_off"));
     }
 }
 
@@ -88,10 +88,10 @@ class CommandDetector implements CommandExecutor {
                 PotionEffect effect = player.getPotionEffect(PotionEffectType.NIGHT_VISION);
                 if (effect == null) {
                     player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 1));
-                    sender.sendMessage(prefix + ChatColor.GREEN + sendMessage(language, "fb_on"));
+                    sender.sendMessage(prefix + " " + ChatColor.GREEN + sendMessage(language, "fb_on"));
                 } else {
                     player.removePotionEffect(PotionEffectType.NIGHT_VISION);
-                    sender.sendMessage(prefix + ChatColor.RED + sendMessage(language, "fb_off"));
+                    sender.sendMessage(prefix + " " + ChatColor.RED + sendMessage(language, "fb_off"));
                 }
             } else if (args.length == 1) {
                 Player target = Bukkit.getPlayerExact(args[0]);
@@ -100,16 +100,16 @@ class CommandDetector implements CommandExecutor {
                         PotionEffect effect = target.getPotionEffect(PotionEffectType.NIGHT_VISION);
                         if (effect == null) {
                             target.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 1));
-                            sender.sendMessage(prefix + ChatColor.GREEN +  sendMessage(language, "fb_on_other").replace("{player}", args[0]));
+                            sender.sendMessage(prefix + " " + ChatColor.GREEN +  sendMessage(language, "fb_on_other").replace("{player}", args[0]));
                         } else {
                             target.removePotionEffect(PotionEffectType.NIGHT_VISION);
-                            sender.sendMessage(prefix + ChatColor.RED + sendMessage(language, "fb_off_other").replace("{player}", args[0]));
+                            sender.sendMessage(prefix + " " + ChatColor.RED + sendMessage(language, "fb_off_other").replace("{player}", args[0]));
                         }
                     } else {
-                        sender.sendMessage(prefix + ChatColor.RED + sendMessage(language, "permission"));
+                        sender.sendMessage(prefix + " " + ChatColor.RED + sendMessage(language, "permission"));
                     }
                 } else {
-                    sender.sendMessage(prefix + ChatColor.GOLD + sendMessage(language, "fb_player_not_found").replace("{player}", args[0]));
+                    sender.sendMessage(prefix + " " + ChatColor.GOLD + sendMessage(language, "fb_player_not_found").replace("{player}", args[0]));
                 }
             } else if (args.length == 2) {
                 Player target = Bukkit.getPlayerExact(args[0]);
@@ -118,32 +118,32 @@ class CommandDetector implements CommandExecutor {
                         PotionEffect effect = target.getPotionEffect(PotionEffectType.NIGHT_VISION);
                         if (effect == null) {
                             if (args[1].equals("off")) {
-                                sender.sendMessage(prefix + ChatColor.RED +  sendMessage(language, "fb_off_other").replace("{player}", args[0]));
+                                sender.sendMessage(prefix + " " + ChatColor.RED +  sendMessage(language, "fb_off_other").replace("{player}", args[0]));
                             } else if (args[1].equals("on")) {
                                 target.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, Integer.MAX_VALUE, 1));
-                                sender.sendMessage(prefix + ChatColor.GREEN +  sendMessage(language, "fb_off_other").replace("{player}", args[0]));
+                                sender.sendMessage(prefix + " " + ChatColor.GREEN +  sendMessage(language, "fb_off_other").replace("{player}", args[0]));
                             } else {
-                                sender.sendMessage(prefix + ChatColor.RED + sendMessage(language, "parameter_state"));
+                                sender.sendMessage(prefix + " " + ChatColor.RED + sendMessage(language, "parameter_state"));
                             }
                         } else {
                             if (args[1].equals("off")) {
                                 target.removePotionEffect(PotionEffectType.NIGHT_VISION);
-                                sender.sendMessage(prefix + ChatColor.GREEN + sendMessage(language, "fb_already_on_other").replace("{player}", args[0]));
+                                sender.sendMessage(prefix + " " + ChatColor.GREEN + sendMessage(language, "fb_already_on_other").replace("{player}", args[0]));
                             } else if (args[1].equals("on")) {
-                                sender.sendMessage(prefix + ChatColor.RED + sendMessage(language, "fb_alreay_off_other").replace("{player}", args[0]));
+                                sender.sendMessage(prefix + " " + ChatColor.RED + sendMessage(language, "fb_alreay_off_other").replace("{player}", args[0]));
                             } else {
-                                sender.sendMessage(prefix + ChatColor.RED + sendMessage(language, "parameter_state"));
+                                sender.sendMessage(prefix + " " + ChatColor.RED + sendMessage(language, "parameter_state"));
                             }
                         }
                     } else {
-                        sender.sendMessage(prefix + ChatColor.RED + sendMessage(language, "permission"));
+                        sender.sendMessage(prefix + " " + ChatColor.RED + sendMessage(language, "permission"));
                     }
                 } else {
-                    sender.sendMessage(prefix + ChatColor.GOLD + sendMessage(language, "fb_player_not_found").replace("{player}", args[0]));
+                    sender.sendMessage(prefix + " " + ChatColor.GOLD + sendMessage(language, "fb_player_not_found").replace("{player}", args[0]));
                 }
             }
             if (args.length > 2) {
-                sender.sendMessage(prefix + ChatColor.RED + sendMessage(language, "parameter_toomuch"));
+                sender.sendMessage(prefix + " " + ChatColor.RED + sendMessage(language, "parameter_toomuch"));
                 return false;
             }
         }
@@ -151,29 +151,34 @@ class CommandDetector implements CommandExecutor {
                 if (sender.hasPermission("FullbrightExtended.language.language")) {
                     if (args.length > 0) { // Check if arguments are provided
                         if (args[0].equals("pt_BR")) {
-                            plugin.getConfig().set("language", "pt_BR");
+                            plugin.languageManager.getConfig().set("language", "pt_BR");
+                            language = "pt_BR";
                         } else if (args[0].equals("en_US")) {
-                            plugin.getConfig().set("language", "en_US");
+                            plugin.languageManager.getConfig().set("language", "en_US");
+                            language = "en_US";
                         } else {
-                            sender.sendMessage(prefix + ChatColor.RED + "Invalid language argument. Use 'pt_BR' or 'en_US'.");
+                            sender.sendMessage(prefix + " " + ChatColor.RED + "Invalid language argument. Use 'pt_BR' or 'en_US'.");
                             return true;
                         }
- 
+
                         plugin.saveConfig();
-                        sender.sendMessage(prefix + ChatColor.GREEN + sendMessage(language, "language_changed"));
+                        sender.sendMessage(prefix + " " + ChatColor.GREEN + sendMessage(language, "language_changed"));
                     } else {
                         return false;
                     }
                 }
             }
                 else{
-                    sender.sendMessage(prefix + ChatColor.RED + sendMessage(language, "permission_"));
+                    sender.sendMessage(prefix + " " + ChatColor.RED + sendMessage(language, "permission"));
 
 
                 }
         }
+        if (sender instanceof Player){
+
+        }
         else{
-            sender.sendMessage( prefix + ChatColor.RED + language, "console");
+            sender.sendMessage( prefix + " " + ChatColor.RED );
         }
 
 
