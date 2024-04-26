@@ -4,6 +4,3 @@
 # Configuration system created and added by akit
 
 prefix: "&6[FullbrightExtended]"
-
-#Current languages: pt_BR (Brazilian portuguese); en_US (American English)
-language: en_US
