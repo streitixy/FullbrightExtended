@@ -156,7 +156,7 @@ class CommandDetector implements CommandExecutor {
         }
             else if (cmd.getName().equalsIgnoreCase("fblanguage")) {
                 if (sender.hasPermission("FullbrightExtended.language.language")) {
-                    if (args.length > 0) { // Check if arguments are provided
+                    if (args.length > 0) {
                         if (args[0].equals("pt_BR")) {
                             plugin.configManager.getConfig().set("language", "pt_BR");
                             language = "pt_BR";
@@ -168,7 +168,7 @@ class CommandDetector implements CommandExecutor {
                             return true;
                         }
 
-                        plugin.saveConfig();
+                        plugin.configManager.saveConfig();
                         sender.sendMessage(prefix + " " + ChatColor.GREEN + sendMessage(language, "language_changed"));
                     } else {
                         return false;
