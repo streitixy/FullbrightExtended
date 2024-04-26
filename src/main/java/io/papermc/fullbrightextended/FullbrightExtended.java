@@ -30,7 +30,7 @@ public class FullbrightExtended extends JavaPlugin {
         languageManager = new LanguageManager(this);
         languageManager.setupConfig();
         String language;
-        language = getConfig().getString("language", "en_US");
+        language = languageManager.getConfig().getString("language", "en_US");
 
 
 
@@ -46,7 +46,7 @@ public class FullbrightExtended extends JavaPlugin {
         this.getCommand("fblanguage").setTabCompleter(new LanguageCommand());
 
 
-        getServer().getConsoleSender().sendMessage(ChatColor.GREEN + getConfig().getString(language, "plugin_on"));
+        getServer().getConsoleSender().sendMessage(prefix + ChatColor.GREEN + languageManager.getConfig().getString(language, "plugin_on"));
     }
 
     @Override
@@ -54,8 +54,8 @@ public class FullbrightExtended extends JavaPlugin {
         languageManager = new LanguageManager(this);
         languageManager.setupConfig();
         String language;
-        language = getConfig().getString("language", "en_US");
-        getServer().getConsoleSender().sendMessage(ChatColor.RED + getConfig().getString(language, "plugin_off"));
+        language = languageManager.getConfig().getString("language", "en_US");
+        getServer().getConsoleSender().sendMessage(prefix + ChatColor.RED + languageManager.getConfig().getString(language, "plugin_off"));
     }
 }
 
@@ -69,12 +69,12 @@ class CommandDetector implements CommandExecutor {
 
     public CommandDetector(FullbrightExtended plugin) {
         this.plugin = plugin;
-        this.language = plugin.getConfig().getString("language", "en_US");
+        this.language = plugin.languageManager.getConfig().getString("language", "en_US");
 
     }
     public String sendMessage(String language, String messageKey) {
 
-        return plugin.getConfig().getString(language + "." + messageKey);
+        return plugin.languageManager.getConfig().getString(language + "." + messageKey);
     }
 
 

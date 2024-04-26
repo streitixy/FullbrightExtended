@@ -5,7 +5,7 @@ commands:
   fullbright:
     description: Activates/deactivates fullbright
     usage: /fullbright [playerName] [on|off]
-    alises: [fb, fubr, light]
+    aliases: [fb, fubr, light]
     permission: FullbrightExtended.command.fullbrightextended
   fblanguage:
     description: Changes the language of the plugin
