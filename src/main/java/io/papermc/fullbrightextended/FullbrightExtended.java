@@ -82,7 +82,7 @@ class CommandDetector implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("fullbright")) {
-            if (!(sender instanceof  player))
+            if (!(sender instanceof Player))
             {
 
                     sender.sendMessage( prefix + " " + ChatColor.RED + sendMessage(language, "console") );
@@ -180,15 +180,16 @@ class CommandDetector implements CommandExecutor {
 
 
                 }
-        }
-
-
-
-
-
         return true;
     }
 
+
+
+
+
+
 }
+
+
 
 
