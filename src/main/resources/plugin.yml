@@ -14,6 +14,3 @@ permissions:
   FullbrightExtended.command.fullbrightextendedarguments:
     description: Allows the use of the paremeters on the fullbright command
     default: op
-  FullbrightExtended.language.language:
-    description: Allows the use of the fblanguage command
-    default: op
