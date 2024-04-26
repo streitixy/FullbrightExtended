@@ -148,20 +148,23 @@ class CommandDetector implements CommandExecutor {
             }
         }
             else if (cmd.getName().equalsIgnoreCase("fblanguage")) {
-                if (sender.hasPermission("FullbrightExtended.language.language")){
-{
-
-
-                    if (args[0].equals("pt_BR")) {
-                        plugin.getConfig().set("language", "pt_BR");
-
-                    } else if (args[0].equals("en_US")) {
-                        plugin.getConfig().set("language", "en_US");
+                if (sender.hasPermission("FullbrightExtended.language.language")) {
+                    if (args.length > 0) { // Check if arguments are provided
+                        if (args[0].equals("pt_BR")) {
+                            plugin.getConfig().set("language", "pt_BR");
+                        } else if (args[0].equals("en_US")) {
+                            plugin.getConfig().set("language", "en_US");
+                        } else {
+                            sender.sendMessage(prefix + ChatColor.RED + "Invalid language argument. Use 'pt_BR' or 'en_US'.");
+                            return true;
+                        }
+                        // Save the configuration
+                        plugin.saveConfig();
+                        sender.sendMessage(prefix + ChatColor.GREEN + sendMessage(language, "language_changed"));
+                    } else {
+                        sender.sendMessage(prefix + ChatColor.RED + "Usage: /fblanguage <pt_BR|en_US>");
                     }
-                    sender.sendMessage(prefix + ChatColor.GREEN + sendMessage(language, "language_changed"));
-
                 }
-
             }
                 else{
                     sender.sendMessage(prefix + ChatColor.RED + sendMessage(language, "permission_"));
@@ -175,7 +178,7 @@ class CommandDetector implements CommandExecutor {
 
 
 
-        }
+
         return true;
     }
 
