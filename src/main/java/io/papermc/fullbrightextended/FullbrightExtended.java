@@ -69,7 +69,7 @@ class CommandDetector implements CommandExecutor {
 
     public CommandDetector(FullbrightExtended plugin) {
         this.plugin = plugin;
-        this.language = plugin.languageManager.getConfig().getString("language", "en_US");
+        this.language = plugin.configManager.getConfig().getString("language", "en_US");
 
     }
     public String sendMessage(String language, String messageKey) {
@@ -82,7 +82,13 @@ class CommandDetector implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("fullbright")) {
-            if (sender instanceof Player) {
+            if (!(sender instanceof  player))
+            {
+
+                    sender.sendMessage( prefix + " " + ChatColor.RED + sendMessage(language, "console") );
+                    return true;
+            }
+            else if (sender instanceof Player) {
             Player player = (Player) sender;
             if (args.length == 0) {
                 PotionEffect effect = player.getPotionEffect(PotionEffectType.NIGHT_VISION);
@@ -147,14 +153,15 @@ class CommandDetector implements CommandExecutor {
                 return false;
             }
         }
+        }
             else if (cmd.getName().equalsIgnoreCase("fblanguage")) {
                 if (sender.hasPermission("FullbrightExtended.language.language")) {
                     if (args.length > 0) { // Check if arguments are provided
                         if (args[0].equals("pt_BR")) {
-                            plugin.languageManager.getConfig().set("language", "pt_BR");
+                            plugin.configManager.getConfig().set("language", "pt_BR");
                             language = "pt_BR";
                         } else if (args[0].equals("en_US")) {
-                            plugin.languageManager.getConfig().set("language", "en_US");
+                            plugin.configManager.getConfig().set("language", "en_US");
                             language = "en_US";
                         } else {
                             sender.sendMessage(prefix + " " + ChatColor.RED + sendMessage(language, "language_invalid"));
@@ -174,12 +181,7 @@ class CommandDetector implements CommandExecutor {
 
                 }
         }
-        if (sender instanceof Player){
 
-        }
-        else{
-            sender.sendMessage( prefix + " " + ChatColor.RED + sendMessage(language, "console") );
-        }
 
 
 
