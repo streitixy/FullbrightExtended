@@ -20,7 +20,7 @@ import static io.papermc.fullbrightextended.FullbrightExtended.prefix;
 public class FullbrightExtended extends JavaPlugin {
 
     public static String prefix;
-    private ConfigManager configManager;
+    public ConfigManager configManager;
     public LanguageManager languageManager;
 
     @Override
@@ -63,14 +63,14 @@ public class FullbrightExtended extends JavaPlugin {
 
 
 class CommandDetector implements CommandExecutor {
-    private FullbrightExtended plugin;
+    public FullbrightExtended plugin;
     String language = plugin.getConfig().getString("language", "en_US");
 
 
     public CommandDetector(FullbrightExtended plugin) {
         this.plugin = plugin;
     }
-    private String sendMessage(String language, String messageKey) {
+    public String sendMessage(String language, String messageKey) {
 
         return plugin.getConfig().getString(language + "." + messageKey);
     }
