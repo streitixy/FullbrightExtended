@@ -13,6 +13,8 @@ en_US:
   permission: "You do not have permisson to use this command!"
   parameter_state: "Parameter 2 invalid."
   parameter_toomuch: "You added too many parameters."
+  language_changed: "Language changed to English (United States)"
+  console: "The console cannot activate fullbright!"
 pt_BR:
   fb_on: "O fullbright foi ligado para você."
   fb_off: "O fullbright foi desligado para você."
@@ -28,3 +30,5 @@ pt_BR:
   permission: "Você não tem permissão para usar este comando!"
   parameter_state: "Parâmetro 2 inválido."
   parameter_toomuch: "Você adicionou parâmetros demais."
+  language_changed: "Idioma mudado para Português (Brasil)"
+  console: "O console não pode ativar fullbright!"

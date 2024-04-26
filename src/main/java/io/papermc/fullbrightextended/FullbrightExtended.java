@@ -27,11 +27,13 @@ public class FullbrightExtended extends JavaPlugin {
     public void onEnable() {
         configManager = new ConfigManager(this);
         configManager.setupConfig();
-
-
         languageManager = new LanguageManager(this);
         languageManager.setupConfig();
         String language;
+        language = getConfig().getString("language", "en_US");
+
+
+
 
 
 
@@ -44,12 +46,16 @@ public class FullbrightExtended extends JavaPlugin {
         this.getCommand("fblanguage").setTabCompleter(new LanguageCommand());
 
 
-        getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "[FullbrightExtended]: Plugin is enabled");
+        getServer().getConsoleSender().sendMessage(ChatColor.GREEN + getConfig().getString(language, "plugin_on"));
     }
 
     @Override
     public void onDisable() {
-        getServer().getConsoleSender().sendMessage(ChatColor.RED + "[FullbrightExtended]: Plugin is disabled");
+        languageManager = new LanguageManager(this);
+        languageManager.setupConfig();
+        String language;
+        language = getConfig().getString("language", "en_US");
+        getServer().getConsoleSender().sendMessage(ChatColor.RED + getConfig().getString(language, "plugin_off"));
     }
 }
 
@@ -120,9 +126,9 @@ class CommandDetector implements CommandExecutor {
                         } else {
                             if (args[1].equals("off")) {
                                 target.removePotionEffect(PotionEffectType.NIGHT_VISION);
-                                sender.sendMessage(prefix + ChatColor.RED + sendMessage(language, "fb_already_on_other").replace("{player}", args[0]));
+                                sender.sendMessage(prefix + ChatColor.GREEN + sendMessage(language, "fb_already_on_other").replace("{player}", args[0]));
                             } else if (args[1].equals("on")) {
-                                sender.sendMessage(prefix + ChatColor.GREEN + sendMessage(language, "fb_alreay_off_other").replace("{player}", args[0]));
+                                sender.sendMessage(prefix + ChatColor.RED + sendMessage(language, "fb_alreay_off_other").replace("{player}", args[0]));
                             } else {
                                 sender.sendMessage(prefix + ChatColor.RED + sendMessage(language, "parameter_state"));
                             }
@@ -142,15 +148,21 @@ class CommandDetector implements CommandExecutor {
             else if (cmd.getName().equalsIgnoreCase("fblanguage")) {
                 if (args[0].equals("pt_BR")){
                     plugin.getConfig().set("language", "pt_BR");
+
                 }
+
 
                 else if (args[0].equals("en_US")){
                     plugin.getConfig().set("language", "en_US");
                 }
+                sender.sendMessage(prefix + ChatColor.GREEN + sendMessage(language, "language_changed"));
 
 
 
             }
+        }
+        else{
+            sender.sendMessage( prefix + ChatColor.RED + language, "console");
         }
         return true;
 
