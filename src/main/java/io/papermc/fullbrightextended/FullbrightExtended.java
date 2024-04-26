@@ -157,7 +157,7 @@ class CommandDetector implements CommandExecutor {
                             plugin.languageManager.getConfig().set("language", "en_US");
                             language = "en_US";
                         } else {
-                            sender.sendMessage(prefix + " " + ChatColor.RED + "Invalid language argument. Use 'pt_BR' or 'en_US'.");
+                            sender.sendMessage(prefix + " " + ChatColor.RED + sendMessage(language, "language_invalid"));
                             return true;
                         }
 
@@ -178,7 +178,7 @@ class CommandDetector implements CommandExecutor {
 
         }
         else{
-            sender.sendMessage( prefix + " " + ChatColor.RED );
+            sender.sendMessage( prefix + " " + ChatColor.RED + sendMessage(language, "console") );
         }
 
 
