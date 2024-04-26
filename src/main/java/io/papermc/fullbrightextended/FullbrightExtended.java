@@ -64,11 +64,13 @@ public class FullbrightExtended extends JavaPlugin {
 
 class CommandDetector implements CommandExecutor {
     public FullbrightExtended plugin;
-    String language = plugin.getConfig().getString("language", "en_US");
+    String language;
 
 
     public CommandDetector(FullbrightExtended plugin) {
         this.plugin = plugin;
+        this.language = plugin.getConfig().getString("language", "en_US");
+
     }
     public String sendMessage(String language, String messageKey) {
 
