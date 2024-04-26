@@ -158,11 +158,11 @@ class CommandDetector implements CommandExecutor {
                             sender.sendMessage(prefix + ChatColor.RED + "Invalid language argument. Use 'pt_BR' or 'en_US'.");
                             return true;
                         }
-                        // Save the configuration
+ 
                         plugin.saveConfig();
                         sender.sendMessage(prefix + ChatColor.GREEN + sendMessage(language, "language_changed"));
                     } else {
-                        sender.sendMessage(prefix + ChatColor.RED + "Usage: /fblanguage <pt_BR|en_US>");
+                        return false;
                     }
                 }
             }
