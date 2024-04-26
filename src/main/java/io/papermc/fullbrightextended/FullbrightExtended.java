@@ -146,27 +146,37 @@ class CommandDetector implements CommandExecutor {
             }
         }
             else if (cmd.getName().equalsIgnoreCase("fblanguage")) {
-                if (args[0].equals("pt_BR")){
-                    plugin.getConfig().set("language", "pt_BR");
+                if (sender.hasPermission("FullbrightExtended.language.language")){
+{
+
+
+                    if (args[0].equals("pt_BR")) {
+                        plugin.getConfig().set("language", "pt_BR");
+
+                    } else if (args[0].equals("en_US")) {
+                        plugin.getConfig().set("language", "en_US");
+                    }
+                    sender.sendMessage(prefix + ChatColor.GREEN + sendMessage(language, "language_changed"));
 
                 }
-
-
-                else if (args[0].equals("en_US")){
-                    plugin.getConfig().set("language", "en_US");
-                }
-                sender.sendMessage(prefix + ChatColor.GREEN + sendMessage(language, "language_changed"));
-
-
 
             }
+                else{
+                    sender.sendMessage(prefix + ChatColor.RED + sendMessage(language, "permission_"));
+
+
+                }
         }
         else{
             sender.sendMessage( prefix + ChatColor.RED + language, "console");
         }
-        return true;
 
+
+
+        }
+        return true;
     }
+
 }
 
 
