@@ -5,15 +5,10 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
-import java.io.File;
-import java.io.IOException;
 
 import static io.papermc.fullbrightextended.FullbrightExtended.prefix;
 
@@ -78,25 +73,10 @@ class CommandDetector implements CommandExecutor {
 
 
     }
-    public void updateValue(JavaPlugin plugin, String path, Object value) {
-        File configFile = new File(plugin.getDataFolder(), "config.yml");
-        FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
 
-        // Update the value
-        config.set(path, value);
-
-        // Save the changes back to the file
-        try {
-            config.save(configFile);
-            configFile = new File(plugin.getDataFolder(), "config.yml");
-            config = YamlConfiguration.loadConfiguration(configFile);
-        } catch (IOException e) {
-            e.printStackTrace(); // Handle the exception appropriately
-        }
-    }
     public String sendMessage(String language, String messageKey) {
 
-
+        plugin.reloadConfig();
         return plugin.languageManager.getConfig().getString(language + "." + messageKey);
     }
 
@@ -186,6 +166,7 @@ class CommandDetector implements CommandExecutor {
                             config.getConfig().set("language", "pt_BR");
                             config.saveConfig();
                             config.reloadConfig();
+
                             language = "pt_BR";
                         } else if (args[0].equals("en_US")) {
                             config.getConfig().set("language", "en_US");
