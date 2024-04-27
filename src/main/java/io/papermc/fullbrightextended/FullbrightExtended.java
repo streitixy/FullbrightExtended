@@ -1,15 +1,19 @@
 package io.papermc.fullbrightextended;
 
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+
+import java.io.File;
+import java.io.IOException;
 
 import static io.papermc.fullbrightextended.FullbrightExtended.prefix;
 
@@ -28,8 +32,6 @@ public class FullbrightExtended extends JavaPlugin {
         configManager.setupConfig();
         languageManager = new LanguageManager(this);
         languageManager.setupConfig();
-        String language;
-        language = languageManager.getConfig().getString("language", "en_US");
 
 
 
@@ -50,7 +52,10 @@ public class FullbrightExtended extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
+        languageManager = new LanguageManager(this);
+        languageManager.setupConfig();
+        String language;
+        language = languageManager.getConfig().getString("language", "en_US");
         getServer().getConsoleSender().sendMessage(prefix + " " + ChatColor.RED + "Plugin off");
     }
 }
@@ -59,17 +64,31 @@ public class FullbrightExtended extends JavaPlugin {
 
 
 class CommandDetector implements CommandExecutor {
-    LanguageManager languageManager;
-    FullbrightExtended plugin;
+    public FullbrightExtended plugin;
+
 
     String language;
 
 
     public CommandDetector(FullbrightExtended plugin) {
         this.plugin = plugin;
-        this.languageManager = new LanguageManager(plugin);
+        this.language = plugin.languageManager.getConfig().getString("language", "en_US");
+        plugin.languageManager = new LanguageManager(plugin);
 
+    }
+    public void updateValue(JavaPlugin plugin, String path, String value){
+        File configFile = new File(plugin.getDataFolder(), "languages.yml");
+        FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
 
+        // Update the value
+        config.set(path, value);
+
+        // Save the changes back to the file
+        try {
+            config.save(configFile);
+        } catch (IOException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
     }
     public String sendMessage(String language, String messageKey) {
 
@@ -158,12 +177,9 @@ class CommandDetector implements CommandExecutor {
                 if (sender.hasPermission("FullbrightExtended.language.language")) {
                     if (args.length > 0) {
                         if (args[0].equals("pt_BR")) {
-                            plugin.configManager.getConfig().set("language", "pt_BR");
-                            languageManager.getConfig().set("language", "pt_BR");
-
+                            updateValue(plugin, "language", "pt_BR");
                         } else if (args[0].equals("en_US")) {
-                            languageManager.getConfig().set("language", "en_US");
-                            plugin.configManager.saveConfig();
+                            updateValue(plugin, "language", "en_US");
                         } else {
                             sender.sendMessage(prefix + " " + ChatColor.RED + sendMessage(language, "language_invalid"));
                             return true;

@@ -39,7 +39,6 @@ public class LanguageManager {
         }
         try {
             config.save(configFile);
-            reloadConfig();
         } catch (IOException ex) {
             plugin.getLogger().warning("Could not save config to " + configFile.getName());
         }
