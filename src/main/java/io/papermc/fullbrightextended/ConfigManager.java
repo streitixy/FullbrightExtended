@@ -38,7 +38,7 @@ public class ConfigManager {
             return;
         }
         try {
-            getConfig().save(config);
+            config.save(configFile);
         } catch (IOException ex) {
             plugin.getLogger().warning("Could not save config to " + configFile.getName());
         }
