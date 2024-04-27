@@ -96,6 +96,7 @@ class CommandDetector implements CommandExecutor {
     }
     public String sendMessage(String language, String messageKey) {
 
+
         return plugin.languageManager.getConfig().getString(language + "." + messageKey);
     }
 
@@ -103,7 +104,7 @@ class CommandDetector implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-
+        language = plugin.languageManager.getConfig().getString("language", "en_US");
         if (cmd.getName().equalsIgnoreCase("fullbright")) {
             if (!(sender instanceof Player))
             {
@@ -201,9 +202,10 @@ class CommandDetector implements CommandExecutor {
                         return false;
                     }
                 }
-            }
                 else{
                     sender.sendMessage(prefix + " " + ChatColor.RED + sendMessage(language, "permission"));
+            }
+
 
 
                 }
