@@ -50,7 +50,10 @@ public class FullbrightExtended extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
+        languageManager = new LanguageManager(this);
+        languageManager.setupConfig();
+        String language;
+        language = languageManager.getConfig().getString("language", "en_US");
         getServer().getConsoleSender().sendMessage(prefix + " " + ChatColor.RED + "Plugin off");
     }
 }
@@ -156,11 +159,11 @@ class CommandDetector implements CommandExecutor {
                         if (args[0].equals("pt_BR")) {
                             plugin.configManager.getConfig().set("language", "pt_BR");
                             language = "pt_BR";
-                            plugin.configManager.getConfig().save(new File(plugin.getDataFolder(), "languages.yml"));
+                            plugin.configManager.saveConfig();
                         } else if (args[0].equals("en_US")) {
                             plugin.configManager.getConfig().set("language", "en_US");
                             language = "en_US";
-                            plugin.configManager.getConfig().save(new File(plugin.getDataFolder(), "languages.yml"));
+                            plugin.configManager.saveConfig();
                         } else {
                             sender.sendMessage(prefix + " " + ChatColor.RED + sendMessage(language, "language_invalid"));
                             return true;
