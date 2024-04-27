@@ -171,7 +171,8 @@ class CommandDetector implements CommandExecutor {
                             return true;
                         }
 
-
+                        plugin.configManager.saveConfig();
+                        plugin.configManager.reloadConfig();
                         sender.sendMessage(prefix + " " + ChatColor.GREEN + sendMessage(language, "language_changed"));
                     } else {
                         return false;
