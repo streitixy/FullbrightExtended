@@ -159,19 +159,19 @@ class CommandDetector implements CommandExecutor {
                         if (args[0].equals("pt_BR")) {
                             plugin.configManager.getConfig().set("language", "pt_BR");
                             language = "pt_BR";
-                            configManager.saveConfig();
-                            configManager.reloadConfig();
+                            plugin.configManager.saveConfig();
+                            plugin.configManager.reloadConfig();
                         } else if (args[0].equals("en_US")) {
                             plugin.configManager.getConfig().set("language", "en_US");
                             language = "en_US";
-                            configManager.saveConfig();
-                            configManager.reloadConfig();
+                            plugin.configManager.saveConfig();
+                            plugin.configManager.reloadConfig();
                         } else {
                             sender.sendMessage(prefix + " " + ChatColor.RED + sendMessage(language, "language_invalid"));
                             return true;
                         }
 
-                        
+
                         sender.sendMessage(prefix + " " + ChatColor.GREEN + sendMessage(language, "language_changed"));
                     } else {
                         return false;
