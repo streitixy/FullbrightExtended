@@ -23,7 +23,7 @@ public class ConfigManager {
             plugin.saveResource("config.yml", false);
         }
 
-        config = YamlConfiguration.load(configFile);
+        config = YamlConfiguration.loadConfiguration(configFile);
     }
 
     public FileConfiguration getConfig() {
@@ -38,7 +38,7 @@ public class ConfigManager {
             return;
         }
         try {
-            getConfig().save(configFile);
+            getConfig().save(config);
         } catch (IOException ex) {
             plugin.getLogger().warning("Could not save config to " + configFile.getName());
         }
@@ -48,6 +48,6 @@ public class ConfigManager {
         if (configFile == null) {
             configFile = new File(plugin.getDataFolder(), "config.yml");
         }
-        config = YamlConfiguration.load(configFile);
+        config = YamlConfiguration.loadConfiguration(configFile);
     }
 }
