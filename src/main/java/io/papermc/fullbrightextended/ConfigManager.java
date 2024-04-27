@@ -23,7 +23,7 @@ public class ConfigManager {
             plugin.saveResource("config.yml", false);
         }
 
-        config = YamlConfiguration.loadConfiguration(configFile);
+        config = YamlConfiguration.load(configFile);
     }
 
     public FileConfiguration getConfig() {
@@ -48,6 +48,6 @@ public class ConfigManager {
         if (configFile == null) {
             configFile = new File(plugin.getDataFolder(), "config.yml");
         }
-        config = YamlConfiguration.loadConfiguration(configFile);
+        config = YamlConfiguration.load(configFile);
     }
 }
