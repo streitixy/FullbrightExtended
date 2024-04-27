@@ -66,13 +66,17 @@ class CommandDetector implements CommandExecutor {
 
 
     String language;
+    ConfigManager config;
 
 
     public CommandDetector(FullbrightExtended plugin) {
         this.plugin = plugin;
         this.language = plugin.languageManager.getConfig().getString("language", "en_US");
-        plugin.languageManager = new LanguageManager(plugin);
-        plugin.languageManager.setupConfig();
+        config = new ConfigManager(plugin);
+        config.setupConfig();
+        config.reloadConfig();
+
+
     }
     public void updateValue(JavaPlugin plugin, String path, Object value) {
         File configFile = new File(plugin.getDataFolder(), "config.yml");
@@ -176,8 +180,14 @@ class CommandDetector implements CommandExecutor {
                     if (args.length > 0) {
                         if (args[0].equals("pt_BR")) {
                             updateValue(plugin, "language", "pt_BR");
+                            config.saveConfig();
+                            config.reloadConfig();
+                            language = "pt_BR";
                         } else if (args[0].equals("en_US")) {
                             updateValue(plugin, "language", "en_US");
+                            config.saveConfig();
+                            config.reloadConfig();
+                            language = "en_US";
                         } else {
                             sender.sendMessage(prefix + " " + ChatColor.RED + sendMessage(language, "language_invalid"));
                             return true;
