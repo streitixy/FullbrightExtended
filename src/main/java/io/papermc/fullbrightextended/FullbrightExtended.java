@@ -11,7 +11,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-
 import static io.papermc.fullbrightextended.FullbrightExtended.prefix;
 
 
@@ -46,7 +45,7 @@ public class FullbrightExtended extends JavaPlugin {
         this.getCommand("fblanguage").setTabCompleter(new LanguageCommand());
 
 
-        getServer().getConsoleSender().sendMessage(prefix + " " + ChatColor.GREEN + languageManager.getConfig().getString(language, "plugin_on"));
+        getServer().getConsoleSender().sendMessage(prefix + " " + ChatColor.GREEN + "Plugin on");
     }
 
     @Override
@@ -55,7 +54,7 @@ public class FullbrightExtended extends JavaPlugin {
         languageManager.setupConfig();
         String language;
         language = languageManager.getConfig().getString("language", "en_US");
-        getServer().getConsoleSender().sendMessage(prefix + " " + ChatColor.RED + languageManager.getConfig().getString(language, "plugin_off"));
+        getServer().getConsoleSender().sendMessage(prefix + " " + ChatColor.RED + "Plugin off");
     }
 }
 
@@ -160,15 +159,17 @@ class CommandDetector implements CommandExecutor {
                         if (args[0].equals("pt_BR")) {
                             plugin.configManager.getConfig().set("language", "pt_BR");
                             language = "pt_BR";
+                            plugin.configManager.saveConfig();
                         } else if (args[0].equals("en_US")) {
                             plugin.configManager.getConfig().set("language", "en_US");
                             language = "en_US";
+                            plugin.configManager.saveConfig();
                         } else {
                             sender.sendMessage(prefix + " " + ChatColor.RED + sendMessage(language, "language_invalid"));
                             return true;
                         }
 
-                        plugin.configManager.saveConfig();
+
                         sender.sendMessage(prefix + " " + ChatColor.GREEN + sendMessage(language, "language_changed"));
                     } else {
                         return false;
