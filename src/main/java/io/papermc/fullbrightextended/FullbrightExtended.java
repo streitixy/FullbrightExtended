@@ -187,10 +187,10 @@ class CommandDetector implements CommandExecutor {
                             config.reloadConfig();
                             language = "pt_BR";
                         } else if (args[0].equals("en_US")) {
-                            config.getConfig().set("language", "pt_BR");
+                            config.getConfig().set("language", "en_US");
                             config.saveConfig();
                             config.reloadConfig();
-                            language = "pt_BR";
+                            language = "en_US";
                         } else {
                             sender.sendMessage(prefix + " " + ChatColor.RED + sendMessage(language, "language_invalid"));
                             return true;
