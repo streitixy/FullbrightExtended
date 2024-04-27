@@ -88,6 +88,8 @@ class CommandDetector implements CommandExecutor {
         // Save the changes back to the file
         try {
             config.save(configFile);
+            configFile = new File(plugin.getDataFolder(), "config.yml");
+            config = YamlConfiguration.loadConfiguration(configFile);
         } catch (IOException e) {
             e.printStackTrace(); // Handle the exception appropriately
         }
@@ -179,15 +181,15 @@ class CommandDetector implements CommandExecutor {
                 if (sender.hasPermission("FullbrightExtended.language.language")) {
                     if (args.length > 0) {
                         if (args[0].equals("pt_BR")) {
-                            updateValue(plugin, "language", "pt_BR");
+                            config.getConfig().set("language", "pt_BR");
                             config.saveConfig();
                             config.reloadConfig();
                             language = "pt_BR";
                         } else if (args[0].equals("en_US")) {
-                            updateValue(plugin, "language", "en_US");
+                            config.getConfig().set("language", "pt_BR");
                             config.saveConfig();
                             config.reloadConfig();
-                            language = "en_US";
+                            language = "pt_BR";
                         } else {
                             sender.sendMessage(prefix + " " + ChatColor.RED + sendMessage(language, "language_invalid"));
                             return true;

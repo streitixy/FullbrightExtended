@@ -31,6 +31,6 @@ pt_BR:
   permission: "Você não tem permissão para usar este comando!"
   parameter_state: "Parâmetro 2 inválido."
   parameter_toomuch: "Você adicionou parâmetros demais."
-  language_changed: "Idioma mudado para Português (Brasil)"
+  language_changed: "Idioma alterado para Português (Brasil)"
   language_invalid: "Idioma inváldo."
   console: "O console não pode ativar o fullbright!"
