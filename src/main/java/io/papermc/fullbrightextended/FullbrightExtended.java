@@ -63,12 +63,15 @@ public class FullbrightExtended extends JavaPlugin {
 
 class CommandDetector implements CommandExecutor {
     public FullbrightExtended plugin;
+
+
     String language;
 
 
     public CommandDetector(FullbrightExtended plugin) {
         this.plugin = plugin;
         this.language = plugin.configManager.getConfig().getString("language", "en_US");
+
 
     }
     public String sendMessage(String language, String messageKey) {
@@ -80,6 +83,7 @@ class CommandDetector implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+
         if (cmd.getName().equalsIgnoreCase("fullbright")) {
             if (!(sender instanceof Player))
             {
@@ -160,12 +164,11 @@ class CommandDetector implements CommandExecutor {
                             plugin.configManager.getConfig().set("language", "pt_BR");
                             language = "pt_BR";
                             plugin.configManager.saveConfig();
-                            plugin.configManager.reloadConfig();
+
                         } else if (args[0].equals("en_US")) {
                             plugin.configManager.getConfig().set("language", "en_US");
                             language = "en_US";
                             plugin.configManager.saveConfig();
-                            plugin.configManager.reloadConfig();
                         } else {
                             sender.sendMessage(prefix + " " + ChatColor.RED + sendMessage(language, "language_invalid"));
                             return true;
