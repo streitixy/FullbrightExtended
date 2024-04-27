@@ -160,10 +160,12 @@ class CommandDetector implements CommandExecutor {
                             plugin.configManager.getConfig().set("language", "pt_BR");
                             language = "pt_BR";
                             plugin.configManager.saveConfig();
+                            plugin.configManager.reloadConfig();
                         } else if (args[0].equals("en_US")) {
                             plugin.configManager.getConfig().set("language", "en_US");
                             language = "en_US";
                             plugin.configManager.saveConfig();
+                            plugin.configManager.reloadConfig();
                         } else {
                             sender.sendMessage(prefix + " " + ChatColor.RED + sendMessage(language, "language_invalid"));
                             return true;
