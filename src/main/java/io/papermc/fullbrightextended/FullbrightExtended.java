@@ -66,10 +66,11 @@ class CommandDetector implements CommandExecutor {
 
     public CommandDetector(FullbrightExtended plugin) {
         this.plugin = plugin;
-        this.language = plugin.configManager.getConfig().getString("language", "en_US");
+
         config = new ConfigManager(plugin);
         config.setupConfig();
         config.reloadConfig();
+        this.language = this.config.getConfig().getString("language", "en_US");
 
 
     }
