@@ -85,11 +85,10 @@ class CommandDetector implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        plugin.configManager.reloadConfig(); 
+        plugin.configManager.reloadConfig();
         plugin.languageManager.reloadConfig();
-        language = plugin.languageManager.getConfig().getString("language", "en_US");
-        plugin.languageManager.reloadConfig();
-        language = plugin.languageManager.getConfig().getString("language", "en_US");
+        language = plugin.configManager.getConfig().getString("language", "en_US");
+
         if (cmd.getName().equalsIgnoreCase("fullbright")) {
             if (!(sender instanceof Player))
             {
